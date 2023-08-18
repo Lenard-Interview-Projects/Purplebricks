@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<views:MvxContentPage x:TypeArguments="viewModels:PropertyDetailsViewModel"
+                      xmlns="http://xamarin.com/schemas/2014/forms" 
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                      xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                      xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
+                      xmlns:viewModels="clr-namespace:testapp.Core.ViewModels.Properties;assembly=testapp.Core"
+                      xmlns:converters="clr-namespace:testapp.UI.Converters"
+                      xmlns:local="clr-namespace:testapp.UI.Views"
+                      mc:Ignorable="d" 
+                      x:Class="testapp.UI.Views.PropertyDetailsPage" 
+                      x:Name="MainContent"
+                      Title="Property details"
+                      BackgroundColor="White">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand">
+
+            <StackLayout IsVisible="{Binding IsBusy}"
+                         VerticalOptions="CenterAndExpand">
+
+                <StackLayout HorizontalOptions="Center" 
+                             VerticalOptions="Center">
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                       Color="{StaticResource Aubergine}" />
+
+                    <Label Style="{StaticResource TextLabel}" 
+                           Text="Please wait..." />
+                </StackLayout>
+            </StackLayout>
+
+            <ScrollView IsVisible="{Binding IsBusy, Converter={x:Static converters:InverseBooleanConverter.Instance}}">
+                <Grid RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackLayout Grid.Row="0" BackgroundColor="Accent">
+                        <Image HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand"
+                               Aspect="AspectFill"
+                               Source="{Binding PropertyDetails.PrimaryImageUrl}"/>
+                        <!--<CarouselView ItemsSource="{Binding PropertyDetails.Images}}">
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout HorizontalOptions="FillAndExpand"
+                                                     VerticalOptions="FillAndExpand">
+                                            <Image Source="{Binding Url}"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                        </CarouselView>-->
+                    </StackLayout>
+                    <StackLayout Grid.Row="1" 
+                                 Orientation="Horizontal">
+                        <FlexLayout x:Name="photosButton"
+                                    JustifyContent="Center" AlignItems="Center"
+                                    HorizontalOptions="FillAndExpand">
+                            <Image Source="Information.png" 
+                                   HeightRequest="32" WidthRequest="32"/>
+                            <Label Text="details"
+                                   TextColor="Black"
+                                   FontSize="Small"/>
+                        </FlexLayout>
+                        <FlexLayout x:Name="mapButton"
+                                    JustifyContent="Center" AlignItems="Center"
+                                    HorizontalOptions="FillAndExpand">
+                            <Image Source="map.png" 
+                                   HeightRequest="32" WidthRequest="32"/>
+                            <Label Text="map"
+                                   TextColor="Black"
+                                   FontSize="Small"/>
+                        </FlexLayout>
+                        <FlexLayout x:Name="streetviewButton"
+                                    JustifyContent="Center" AlignItems="Center"
+                                    HorizontalOptions="FillAndExpand">
+                            <Image Source="street_view.png" 
+                                   HeightRequest="32" WidthRequest="32"/>
+                            <Label Text="streetview"
+                                   TextColor="Black"
+                                   FontSize="Small"/>
+                        </FlexLayout>
+                        <FlexLayout x:Name="floorplanButton"
+                                    JustifyContent="Center" AlignItems="Center"
+                                    HorizontalOptions="FillAndExpand">
+                            <Image Source="floor_plan.png" 
+                                   HeightRequest="32" WidthRequest="32"/>
+                            <Label Text="floorplan"
+                                   TextColor="Black"
+                                   FontSize="Small"/>
+                        </FlexLayout>
+                    </StackLayout>
+                    <Grid Grid.Row="2" BackgroundColor="{StaticResource BrandPurple}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.Column="0"
+                                     Padding="10, 10">
+                            <Label HorizontalOptions="FillAndExpand"
+                                   Text="{Binding PropertyDetails.Address}"
+                                   FontSize="Small"
+                                   TextColor="White"/>
+                            <Label HorizontalOptions="FillAndExpand"
+                                   Text="{Binding PropertyDetails.Title}"
+                                   FontSize="Small"
+                                   TextColor="White"/>
+                            <Label HorizontalOptions="FillAndExpand"
+                                   Text="Open Brochure"
+                                   FontSize="Small"
+                                   TextColor="White"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1"
+                                     Padding="10, 10">
+                            <Label HorizontalOptions="FillAndExpand"
+                                   Text="{Binding PropertyDetails.FormattedMarketPrice}"
+                                   FontSize="Large"
+                                   TextColor="White"
+                                   HorizontalTextAlignment="End"/>
+                            <Label HorizontalOptions="FillAndExpand"
+                                   Text="Offers in excess of"
+                                   FontSize="Medium"
+                                   TextColor="White"
+                                   HorizontalTextAlignment="End"/>
+                        </StackLayout>
+                    </Grid>
+                    <StackLayout Grid.Row="3">
+                        <StackLayout x:Name="photosLayout"
+                                     IsVisible="True"
+                                     Padding="10, 10"
+                                     HorizontalOptions="FillAndExpand">
+                            <StackLayout>
+                                <Label Text="Description"
+                                   FontSize="Large"
+                                   TextColor="{StaticResource BrandPurple}" />
+                                <Label Text="{Binding PropertyDetails.Description}"
+                                       FontSize="Medium"/>
+                            </StackLayout>
+                            <StackLayout Margin="0, 15, 0, 0">
+                                <Label Text="Key Features"
+                                   FontSize="Large"
+                                   TextColor="{StaticResource BrandPurple}" />
+                                <ListView ItemsSource="{Binding PropertyDetails.StarPointsList}"
+                                      HasUnevenRows="True"
+                                      SeparatorVisibility="None"
+                                      HeightRequest="200">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Label Text="{Binding}"
+                                                   FontSize="Medium"/>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                            <FlexLayout Margin="0, 15, 0, 0"
+                                        Direction="Column"
+                                        JustifyContent="SpaceBetween"
+                                        AlignItems="Center">
+                                <Button Text="Book Viewing"
+                                        Margin="0, 0, 0, 15"
+                                        FlexLayout.AlignSelf="Stretch"
+                                        FlexLayout.Grow="1"
+                                        Style="{StaticResource DefaultButton}"/>
+                                <Button Text="Make An Offer"
+                                        FlexLayout.AlignSelf="Stretch"
+                                        FlexLayout.Grow="1" 
+                                        Style="{StaticResource DefaultButton}"
+                                        IsVisible="{Binding PropertyDetails.ToLet,Converter={x:Static converters:InverseBooleanConverter.Instance}}"/>
+                            </FlexLayout>
+                        </StackLayout>
+                        <StackLayout x:Name="mapLayout"
+                                     IsVisible="False"
+                                     Padding="10, 10">
+                            <Label Text="Map"
+                                   FontSize="Large"
+                                   TextColor="{StaticResource BrandPurple}" />
+                        </StackLayout>
+                        <StackLayout x:Name="streetviewLayout"
+                                     IsVisible="False"
+                                     Padding="10, 10">
+                            <Label Text="Street View"
+                                   FontSize="Large"
+                                   TextColor="{StaticResource BrandPurple}" />
+                        </StackLayout>
+                        <StackLayout x:Name="floorplanLayout"
+                                     IsVisible="False"
+                                     Padding="10, 10">
+                            <Label Text="Floor Plan"
+                                   FontSize="Large"
+                                   TextColor="{StaticResource BrandPurple}" />
+                            <Image HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                   Source="{Binding PropertyDetails.FloorplanUrl}"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</views:MvxContentPage>
